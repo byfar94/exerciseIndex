@@ -27,6 +27,8 @@ function App() {
 
   const [exerciseFormSubmitCount, setExerciseFormSubmitCount] = useState(0);
 
+  const [exerciseDeleteCount, setExerciseDeleteCount] = useState(0);
+
   return (
     <>
       <Header
@@ -36,6 +38,8 @@ function App() {
       <MainContent
         toggleSidebar={toggleSidebar}
         exerciseFormSubmitCount={exerciseFormSubmitCount}
+        exerciseDeleteCount={exerciseDeleteCount}
+        setExerciseDeleteCount={setExerciseDeleteCount}
       ></MainContent>
       <Modal isOpen={sidebarStatus} close={toggleSidebar}>
         <Sidebar />

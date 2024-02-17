@@ -7,6 +7,8 @@ import rightArrow from '../assets/images/right-arrow.svg';
 export default function MainContent({
   toggleSidebar,
   exerciseFormSubmitCount,
+  exerciseDeleteCount,
+  setExerciseDeleteCount,
 }) {
   const [data, setData] = useState(null);
 
@@ -22,7 +24,7 @@ export default function MainContent({
     };
 
     fetchDataAndUpdateState();
-  }, [exerciseFormSubmitCount]);
+  }, [exerciseFormSubmitCount, exerciseDeleteCount]);
 
   return (
     <section id='main-content'>
@@ -37,7 +39,13 @@ export default function MainContent({
             <img alt='dropdown icon' id='dropdown-icon' src={rightArrow}></img>
           </h2>
         </div>
-        {data ? <ExerciseCard exerciseData={data}></ExerciseCard> : null}
+        {data ? (
+          <ExerciseCard
+            exerciseData={data}
+            exerciseDeleteCount={exerciseDeleteCount}
+            setExerciseDeleteCount={setExerciseDeleteCount}
+          ></ExerciseCard>
+        ) : null}
       </div>
     </section>
   );
@@ -46,4 +54,6 @@ export default function MainContent({
 MainContent.propTypes = {
   toggleSidebar: PropTypes.func.isRequired,
   exerciseFormSubmitCount: PropTypes.number,
+  exerciseDeleteCount: PropTypes.number,
+  setExerciseDeleteCount: PropTypes.func.isRequired,
 };
