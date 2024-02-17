@@ -2,7 +2,9 @@ export default function Sidebar() {
   return (
     <section id='sidebar'>
       <ul>
-        <li>All</li>
+        <li>
+          <a>All</a>
+        </li>
       </ul>
       <ul className='bp-list'>
         <p>Body Part:</p>

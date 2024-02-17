@@ -25,18 +25,28 @@ function App() {
     setlogInFormStatus(!logInFormStatus);
   };
 
+  const [exerciseFormSubmitCount, setExerciseFormSubmitCount] = useState(0);
+
   return (
     <>
       <Header
         toggleExerciseForm={toggleExerciseForm}
         toggleLogInForm={toggleLogInForm}
       ></Header>
-      <MainContent toggleSidebar={toggleSidebar}></MainContent>
+      <MainContent
+        toggleSidebar={toggleSidebar}
+        exerciseFormSubmitCount={exerciseFormSubmitCount}
+      ></MainContent>
       <Modal isOpen={sidebarStatus} close={toggleSidebar}>
         <Sidebar />
       </Modal>
       <Modal isOpen={exerciseFormStatus} close={toggleExerciseForm}>
-        <AddExerciseForm />
+        <AddExerciseForm
+          isOpen={exerciseFormStatus}
+          close={toggleExerciseForm}
+          exerciseFormSubmitCount={exerciseFormSubmitCount}
+          setExerciseFormSubmitCount={setExerciseFormSubmitCount}
+        />
       </Modal>
       <Modal isOpen={logInFormStatus} close={toggleLogInForm}>
         <LogInForm />

@@ -4,17 +4,25 @@ import { getExerciseData } from '../request';
 import PropTypes from 'prop-types';
 import rightArrow from '../assets/images/right-arrow.svg';
 
-export default function MainContent({ toggleSidebar }) {
+export default function MainContent({
+  toggleSidebar,
+  exerciseFormSubmitCount,
+}) {
   const [data, setData] = useState(null);
 
+  //will fetch data on load and when exericseFormSubmitCount changes which will be changed when form is submitted
   useEffect(() => {
     const fetchDataAndUpdateState = async () => {
-      const exerciseData = await getExerciseData();
-      setData(exerciseData);
+      try {
+        const exerciseData = await getExerciseData();
+        setData(exerciseData);
+      } catch (err) {
+        console.error('failed to fetch exercise data');
+      }
     };
 
     fetchDataAndUpdateState();
-  }, []);
+  }, [exerciseFormSubmitCount]);
 
   return (
     <section id='main-content'>
@@ -37,4 +45,5 @@ export default function MainContent({ toggleSidebar }) {
 
 MainContent.propTypes = {
   toggleSidebar: PropTypes.func.isRequired,
+  exerciseFormSubmitCount: PropTypes.number,
 };
