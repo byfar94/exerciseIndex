@@ -32,6 +32,9 @@ function App() {
   //search query state
   const [query, setQuery] = useState('');
 
+  //exercise category
+  const [exerciseCategory, setExerciseCategory] = useState('all');
+
   useEffect(() => {
     console.log(query);
   }, [query]);
@@ -49,9 +52,10 @@ function App() {
         exerciseDeleteCount={exerciseDeleteCount}
         setExerciseDeleteCount={setExerciseDeleteCount}
         query={query}
+        exerciseCategory={exerciseCategory}
       ></MainContent>
       <Modal isOpen={sidebarStatus} close={toggleSidebar}>
-        <Sidebar />
+        <Sidebar setExerciseCategory={setExerciseCategory} />
       </Modal>
       <Modal isOpen={exerciseFormStatus} close={toggleExerciseForm}>
         <AddExerciseForm

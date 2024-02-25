@@ -1,5 +1,5 @@
-async function getExerciseData() {
-  const response = await fetch('/exercise');
+async function getExerciseData(category) {
+  const response = await fetch(`/exercise/${category}`);
   if (!response.ok) {
     throw new Error('Failed to fetch exercise data');
   }

@@ -12,6 +12,7 @@ export default function MainContent({
   exerciseDeleteCount,
   setExerciseDeleteCount,
   query,
+  exerciseCategory,
 }) {
   const [data, setData] = useState(null);
 
@@ -19,7 +20,7 @@ export default function MainContent({
   useEffect(() => {
     const fetchDataAndUpdateState = async () => {
       try {
-        const exerciseData = await getExerciseData();
+        const exerciseData = await getExerciseData(exerciseCategory);
         setData(exerciseData);
       } catch (err) {
         console.error('failed to fetch exercise data');
@@ -27,7 +28,7 @@ export default function MainContent({
     };
 
     fetchDataAndUpdateState();
-  }, [exerciseFormSubmitCount, exerciseDeleteCount]);
+  }, [exerciseFormSubmitCount, exerciseDeleteCount, exerciseCategory]);
 
   // will filter data object
   let filteredData = filterValueOfKeyByQuery(data, query, 'extitle');
@@ -63,4 +64,5 @@ MainContent.propTypes = {
   exerciseDeleteCount: PropTypes.number,
   setExerciseDeleteCount: PropTypes.func.isRequired,
   query: PropTypes.string,
+  exerciseCategory: PropTypes.string,
 };

@@ -97,6 +97,48 @@ app.post('/exercise', upload.single('imgfile'), async (req, res) => {
   }
 });
 
+app.get('/exercise/:category', async (req, res) => {
+  const bodyPartArray = ['hand', 'wrist', 'elbow', 'shoulder'];
+  const exerciseTypeArray = ['aarom', 'arom', 'prom', 'resistance', 'stretch'];
+  const category = req.params.category;
+  console.log(category);
+
+  // Handle fetching all exercises
+  if (category === 'all') {
+    const sql = `SELECT * FROM exercises`;
+    database.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error executing SELECT query:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+      res.status(200).json(result);
+    });
+  } else {
+    // Determine the SQL query based on the category type
+    let sql = '';
+    if (bodyPartArray.includes(category)) {
+      console.log('bodypart backend ran');
+      sql = 'SELECT * FROM exercises WHERE bodypart = ?';
+    } else if (exerciseTypeArray.includes(category)) {
+      console.log('extype backend ran');
+      sql = 'SELECT * FROM exercises WHERE extype = ?';
+    } else {
+      // If category does not match any known category, return an error
+      return res.status(400).json({ error: 'Invalid category' });
+    }
+
+    // Execute the determined SQL query
+    database.query(sql, [category], (err, rows) => {
+      if (err) {
+        console.error('Error executing filtered SELECT query:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+      res.json(rows);
+    });
+  }
+});
+
+/*
 //query all
 app.get('/exercise', async (req, res) => {
   const sql = `SELECT * FROM exercises`;
@@ -137,7 +179,7 @@ app.get('/exercise/extype/:extype', (req, res) => {
     }
     res.json(rows);
   });
-});
+}); */
 
 // delete request
 app.delete('/exercise/:id', async (req, res) => {
