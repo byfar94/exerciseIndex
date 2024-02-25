@@ -227,7 +227,7 @@ app.delete('/exercise/:id', async (req, res) => {
 
 //edit (patch) database (text)
 
-app.patch('/exercise/:id', async (req, res) => {
+app.patch('/exercise/:id', upload.none(), async (req, res) => {
   try {
     console.log(req.body);
     console.log(req.params.id);

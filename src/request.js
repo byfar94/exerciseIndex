@@ -1,3 +1,4 @@
+//get request
 async function getExerciseData(category) {
   const response = await fetch(`/exercise/${category}`);
   if (!response.ok) {
@@ -10,9 +11,10 @@ async function getExerciseData(category) {
 
 export { getExerciseData };
 
+// delete request
 async function handleDelete(id) {
   try {
-    const response = await fetch(`./exercise/${id}`, {
+    const response = await fetch(`/exercise/${id}`, {
       method: 'DELETE',
     });
 
@@ -30,3 +32,58 @@ async function handleDelete(id) {
 }
 
 export { handleDelete };
+
+//patch request
+
+async function handlePatchText(e, id) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  console.log(fd);
+  try {
+    const response = await fetch(`/exercise/${id}`, {
+      method: 'PATCH',
+      body: fd,
+    });
+
+    if (!response.ok) {
+      console.error('network response not ok');
+    }
+
+    const data = await response.json();
+    console.log(data);
+    console.log('data patched');
+    close();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export { handlePatchText };
+
+//handlePatch Img file
+
+async function handlePatchImgFile(e, id, extitle) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  fd.append('extitle', extitle);
+  console.log(fd);
+  try {
+    const response = await fetch(`/exercise/image/${id}`, {
+      method: 'PATCH',
+      body: fd,
+    });
+
+    if (!response.ok) {
+      console.error('network response not ok');
+    }
+
+    const data = await response.json();
+    console.log(data);
+    console.log('data patched');
+    close();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export { handlePatchImgFile };

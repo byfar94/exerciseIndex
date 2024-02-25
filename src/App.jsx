@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import AddExerciseForm from './components/AddExerciseForm';
 import LogInForm from './components/LogInForm';
 import Modal from './components/Modale';
+import EditCardForm from './components/EditCardForm';
 
 function App() {
   //sidebar State
@@ -32,12 +33,25 @@ function App() {
   //search query state
   const [query, setQuery] = useState('');
 
-  //exercise category
-  const [exerciseCategory, setExerciseCategory] = useState('all');
-
   useEffect(() => {
     console.log(query);
   }, [query]);
+
+  //exercise category for sidebar
+  const [exerciseCategory, setExerciseCategory] = useState('all');
+
+  //select edit category for opening specific exericse card edit form
+  const [editSelectCategory, setEditSelectCategory] = useState('');
+
+  //edit form state
+
+  const [editFormStatus, setEditFormStatus] = useState(false);
+  const toggleEditFormStatus = () => {
+    setEditFormStatus(!editFormStatus);
+  };
+
+  //current exericse card id
+  const [currentCardObj, setCurrentCardObj] = useState({});
 
   return (
     <>
@@ -53,6 +67,9 @@ function App() {
         setExerciseDeleteCount={setExerciseDeleteCount}
         query={query}
         exerciseCategory={exerciseCategory}
+        toggleEditFormStatus={toggleEditFormStatus}
+        setEditSelectCategory={setEditSelectCategory}
+        setCurrentCardObj={setCurrentCardObj}
       ></MainContent>
       <Modal isOpen={sidebarStatus} close={toggleSidebar}>
         <Sidebar setExerciseCategory={setExerciseCategory} />
@@ -67,6 +84,12 @@ function App() {
       </Modal>
       <Modal isOpen={logInFormStatus} close={toggleLogInForm}>
         <LogInForm />
+      </Modal>
+      <Modal isOpen={editFormStatus} close={toggleEditFormStatus}>
+        <EditCardForm
+          editSelectCategory={editSelectCategory}
+          currentCardObj={currentCardObj}
+        />
       </Modal>
     </>
   );

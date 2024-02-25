@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 export default function Header({
   toggleExerciseForm,
   toggleLogInForm,
-  query,
   setQuery,
 }) {
   return (
@@ -40,6 +39,5 @@ export default function Header({
 Header.propTypes = {
   toggleExerciseForm: PropTypes.func.isRequired,
   toggleLogInForm: PropTypes.func.isRequired,
-  query: PropTypes.string,
   setQuery: PropTypes.func.isRequired,
 };

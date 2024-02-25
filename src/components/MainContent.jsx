@@ -13,6 +13,9 @@ export default function MainContent({
   setExerciseDeleteCount,
   query,
   exerciseCategory,
+  toggleEditFormStatus,
+  setEditSelectCategory,
+  setCurrentCardObj,
 }) {
   const [data, setData] = useState(null);
 
@@ -51,6 +54,9 @@ export default function MainContent({
             exerciseData={filteredData}
             exerciseDeleteCount={exerciseDeleteCount}
             setExerciseDeleteCount={setExerciseDeleteCount}
+            toggleEditFormStatus={toggleEditFormStatus}
+            setEditSelectCategory={setEditSelectCategory}
+            setCurrentCardObj={setCurrentCardObj}
           ></ExerciseCard>
         ) : null}
       </div>
@@ -65,4 +71,7 @@ MainContent.propTypes = {
   setExerciseDeleteCount: PropTypes.func.isRequired,
   query: PropTypes.string,
   exerciseCategory: PropTypes.string,
+  toggleEditFormStatus: PropTypes.func.isRequired,
+  setEditSelectCategory: PropTypes.func.isRequired,
+  setCurrentCardObj: PropTypes.func.isRequired,
 };

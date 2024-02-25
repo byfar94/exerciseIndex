@@ -1,10 +1,14 @@
 import EditSelectForm from './EditSelectForm';
-import { handleDelete } from '../request';
+import { handleDelete } from '../request.js';
+import PropTypes from 'prop-types';
 
 export default function ExerciseCard({
   exerciseData,
   exerciseDeleteCount,
   setExerciseDeleteCount,
+  toggleEditFormStatus,
+  setEditSelectCategory,
+  setCurrentCardObj,
 }) {
   return exerciseData.map((exercise) => (
     <div className='card-contain' key={exercise.id}>
@@ -26,8 +30,19 @@ export default function ExerciseCard({
         >
           Delete
         </button>
-        <EditSelectForm></EditSelectForm>
+        <EditSelectForm
+          toggleEditFormStatus={toggleEditFormStatus}
+          setEditSelectCategory={setEditSelectCategory}
+          cardObject={exercise}
+          setCurrentCardObj={setCurrentCardObj}
+        ></EditSelectForm>
       </div>
     </div>
   ));
 }
+
+ExerciseCard.propTypes = {
+  toggleEditFormStatus: PropTypes.func.isRequired,
+  setEditSelectCategory: PropTypes.func.isRequired,
+  setCurrentCardObj: PropTypes.func.isRequired,
+};
