@@ -1,7 +1,12 @@
 import Search from './Search';
 import PropTypes from 'prop-types';
 
-export default function Header({ toggleExerciseForm, toggleLogInForm }) {
+export default function Header({
+  toggleExerciseForm,
+  toggleLogInForm,
+  query,
+  setQuery,
+}) {
   return (
     <>
       <section id='header'>
@@ -9,7 +14,7 @@ export default function Header({ toggleExerciseForm, toggleLogInForm }) {
           <img id='site-icon'></img>
           <h1 id='main-header-title'>Exercise Index</h1>
         </div>
-        <Search></Search>
+        <Search setQuery={setQuery}></Search>
         <div id='header-btn-contain'>
           <div id='user-btn-contain'>
             <button onClick={toggleLogInForm} id='log-in-btn'>
@@ -35,4 +40,6 @@ export default function Header({ toggleExerciseForm, toggleLogInForm }) {
 Header.propTypes = {
   toggleExerciseForm: PropTypes.func.isRequired,
   toggleLogInForm: PropTypes.func.isRequired,
+  query: PropTypes.string,
+  setQuery: PropTypes.func.isRequired,
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
 import Sidebar from './components/Sidebar';
@@ -29,17 +29,26 @@ function App() {
 
   const [exerciseDeleteCount, setExerciseDeleteCount] = useState(0);
 
+  //search query state
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    console.log(query);
+  }, [query]);
+
   return (
     <>
       <Header
         toggleExerciseForm={toggleExerciseForm}
         toggleLogInForm={toggleLogInForm}
+        setQuery={setQuery}
       ></Header>
       <MainContent
         toggleSidebar={toggleSidebar}
         exerciseFormSubmitCount={exerciseFormSubmitCount}
         exerciseDeleteCount={exerciseDeleteCount}
         setExerciseDeleteCount={setExerciseDeleteCount}
+        query={query}
       ></MainContent>
       <Modal isOpen={sidebarStatus} close={toggleSidebar}>
         <Sidebar />

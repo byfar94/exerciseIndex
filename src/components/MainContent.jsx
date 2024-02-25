@@ -3,12 +3,15 @@ import ExerciseCard from './ExerciseCard';
 import { getExerciseData } from '../request';
 import PropTypes from 'prop-types';
 import rightArrow from '../assets/images/right-arrow.svg';
+// filterValueOfKeyByQuery(arrayOfObjects, query, key)
+import { filterValueOfKeyByQuery } from '../FilterQuery';
 
 export default function MainContent({
   toggleSidebar,
   exerciseFormSubmitCount,
   exerciseDeleteCount,
   setExerciseDeleteCount,
+  query,
 }) {
   const [data, setData] = useState(null);
 
@@ -26,6 +29,9 @@ export default function MainContent({
     fetchDataAndUpdateState();
   }, [exerciseFormSubmitCount, exerciseDeleteCount]);
 
+  // will filter data object
+  let filteredData = filterValueOfKeyByQuery(data, query, 'extitle');
+
   return (
     <section id='main-content'>
       <div id='exercise-container'>
@@ -41,7 +47,7 @@ export default function MainContent({
         </div>
         {data ? (
           <ExerciseCard
-            exerciseData={data}
+            exerciseData={filteredData}
             exerciseDeleteCount={exerciseDeleteCount}
             setExerciseDeleteCount={setExerciseDeleteCount}
           ></ExerciseCard>
@@ -56,4 +62,5 @@ MainContent.propTypes = {
   exerciseFormSubmitCount: PropTypes.number,
   exerciseDeleteCount: PropTypes.number,
   setExerciseDeleteCount: PropTypes.func.isRequired,
+  query: PropTypes.string,
 };
