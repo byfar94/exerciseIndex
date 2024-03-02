@@ -13,7 +13,7 @@ export default function ExerciseCard({
   return exerciseData.map((exercise) => (
     <div className='card-contain' key={exercise.id}>
       <img
-        alt='exericse-img'
+        alt={exercise.extitle}
         className='card-pic'
         src={`https://exercise-index-images.s3.amazonaws.com/${exercise.id}.jpeg`}
       ></img>

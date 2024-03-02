@@ -6,7 +6,6 @@ const createExercisesTableQuery = `CREATE TABLE IF NOT EXISTS exercises (
   extype VARCHAR(20),
   bodypart VARCHAR(20),
   summary VARCHAR(255),
-  imagepath VARCHAR(255),
   videoid VARCHAR(50)
 )`;
 

@@ -8,6 +8,9 @@ export default function Search({ setQuery }) {
   return (
     <div id='search-contain'>
       <div id='search-component'>
+        <label htmlFor='search' className='invis'>
+          Search
+        </label>
         <input
           type='search'
           id='search'

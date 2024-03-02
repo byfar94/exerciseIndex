@@ -10,7 +10,7 @@ export default function Header({
     <>
       <section id='header'>
         <div id='l-header-contain'>
-          <img id='site-icon'></img>
+          <img alt='site icon' id='site-icon'></img>
           <h1 id='main-header-title'>Exercise Index</h1>
         </div>
         <Search setQuery={setQuery}></Search>
@@ -18,11 +18,11 @@ export default function Header({
           <div id='user-btn-contain'>
             <button onClick={toggleLogInForm} id='log-in-btn'>
               Log In
-              <img></img>
+              {/*<img></img>*/}
             </button>
             <button onClick={toggleLogInForm} id='log-out-btn'>
               Log out
-              <img></img>
+              {/*<img></img>*/}
             </button>
           </div>
           <div id='add-exercise-btn-contain'>
