@@ -35,7 +35,7 @@ export { handleDelete };
 
 //patch request
 
-async function handlePatchText(e, id) {
+async function handlePatchText(e, id, toggleFormStatusFunc) {
   e.preventDefault();
   const fd = new FormData(e.target);
   console.log(fd);
@@ -52,7 +52,7 @@ async function handlePatchText(e, id) {
     const data = await response.json();
     console.log(data);
     console.log('data patched');
-    close();
+    toggleFormStatusFunc();
   } catch (err) {
     console.error(err);
   }
@@ -62,7 +62,7 @@ export { handlePatchText };
 
 //handlePatch Img file
 
-async function handlePatchImgFile(e, id, extitle) {
+async function handlePatchImgFile(e, id, extitle, toggleFormStatusFunc) {
   e.preventDefault();
   const fd = new FormData(e.target);
   fd.append('extitle', extitle);
@@ -80,7 +80,7 @@ async function handlePatchImgFile(e, id, extitle) {
     const data = await response.json();
     console.log(data);
     console.log('data patched');
-    close();
+    toggleFormStatusFunc();
   } catch (err) {
     console.error(err);
   }

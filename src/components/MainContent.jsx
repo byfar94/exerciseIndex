@@ -16,6 +16,7 @@ export default function MainContent({
   toggleEditFormStatus,
   setEditSelectCategory,
   setCurrentCardObj,
+  editFormSubmitCount,
 }) {
   const [data, setData] = useState(null);
 
@@ -31,7 +32,12 @@ export default function MainContent({
     };
 
     fetchDataAndUpdateState();
-  }, [exerciseFormSubmitCount, exerciseDeleteCount, exerciseCategory]);
+  }, [
+    exerciseFormSubmitCount,
+    exerciseDeleteCount,
+    exerciseCategory,
+    editFormSubmitCount,
+  ]);
 
   // will filter data object
   let filteredData = filterValueOfKeyByQuery(data, query, 'extitle');
@@ -74,4 +80,5 @@ MainContent.propTypes = {
   toggleEditFormStatus: PropTypes.func.isRequired,
   setEditSelectCategory: PropTypes.func.isRequired,
   setCurrentCardObj: PropTypes.func.isRequired,
+  editFormSubmitCount: PropTypes.number,
 };

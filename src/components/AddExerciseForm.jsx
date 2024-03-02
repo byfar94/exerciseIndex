@@ -38,9 +38,11 @@ export default function AddExerciseForm({
       const data = response.json();
       console.log(data);
       console.log('data sent');
+      //setExercise count will change when the form is submitted, this wil change the state of exerciseFormSubmitCount. There is a useEffect hook in ExerciseCard.jsx file that has exerciseFormSubmit count in its dependency array which will trigger the data to be reloaded so that the new card will show without a page refresh.
       setExerciseFormSubmitCount(
         (exerciseFormSubmitCount) => exerciseFormSubmitCount + 1,
       );
+      // will toggle exerciseFormStatus, resulting in the html elements not being displayed, see logic in modale.jsx component
       close();
     } catch (err) {
       console.error(err);

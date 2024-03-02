@@ -17,16 +17,18 @@ function App() {
   //exerciseform State
   const [exerciseFormStatus, setexerciseFormStatus] = useState(false);
   const toggleExerciseForm = () => {
+    //will invert boolean value
     setexerciseFormStatus(!exerciseFormStatus);
   };
+
+  const [exerciseFormSubmitCount, setExerciseFormSubmitCount] = useState(0);
 
   //LoginForm State
   const [logInFormStatus, setlogInFormStatus] = useState(false);
   const toggleLogInForm = () => {
+    //will invert boolean value
     setlogInFormStatus(!logInFormStatus);
   };
-
-  const [exerciseFormSubmitCount, setExerciseFormSubmitCount] = useState(0);
 
   const [exerciseDeleteCount, setExerciseDeleteCount] = useState(0);
 
@@ -50,7 +52,9 @@ function App() {
     setEditFormStatus(!editFormStatus);
   };
 
-  //current exericse card id
+  const [editFormSubmitCount, setEditFormSubmitCount] = useState(0);
+
+  //current exericse card id, use in editing cards form
   const [currentCardObj, setCurrentCardObj] = useState({});
 
   return (
@@ -70,6 +74,7 @@ function App() {
         toggleEditFormStatus={toggleEditFormStatus}
         setEditSelectCategory={setEditSelectCategory}
         setCurrentCardObj={setCurrentCardObj}
+        editFormSubmitCount={editFormSubmitCount}
       ></MainContent>
       <Modal isOpen={sidebarStatus} close={toggleSidebar}>
         <Sidebar setExerciseCategory={setExerciseCategory} />
@@ -87,8 +92,12 @@ function App() {
       </Modal>
       <Modal isOpen={editFormStatus} close={toggleEditFormStatus}>
         <EditCardForm
+          isOpen={editFormStatus}
+          close={toggleEditFormStatus}
           editSelectCategory={editSelectCategory}
           currentCardObj={currentCardObj}
+          editFormSubmitCount={editFormSubmitCount}
+          setEditFormSubmitCount={setEditFormSubmitCount}
         />
       </Modal>
     </>

@@ -1,7 +1,19 @@
 import PropTypes from 'prop-types';
 import { handlePatchText, handlePatchImgFile } from '../request.js';
 
-export default function EditCardForm({ editSelectCategory, currentCardObj }) {
+export default function EditCardForm({
+  isOpen,
+  close,
+  editSelectCategory,
+  currentCardObj,
+  editFormSubmitCount,
+  setEditFormSubmitCount,
+}) {
+  function changeFormsubmitecount() {
+    setEditFormSubmitCount((editFormSubmitCount) => editFormSubmitCount + 1);
+    console.log(editFormSubmitCount);
+  }
+
   function renderInput() {
     switch (editSelectCategory) {
       //case extitle, bodypart,extype,videoid
@@ -13,7 +25,8 @@ export default function EditCardForm({ editSelectCategory, currentCardObj }) {
           <form
             id='text-edit-from'
             onSubmit={(e) => {
-              handlePatchText(e, currentCardObj.id);
+              handlePatchText(e, currentCardObj.id, close);
+              changeFormsubmitecount();
             }}
           >
             <fieldset>
@@ -39,7 +52,13 @@ export default function EditCardForm({ editSelectCategory, currentCardObj }) {
             id='img-edit-from'
             encType='multipart/form-data'
             onSubmit={(e) => {
-              handlePatchImgFile(e, currentCardObj.id, currentCardObj.extitle);
+              handlePatchImgFile(
+                e,
+                currentCardObj.id,
+                currentCardObj.extitle,
+                close,
+              );
+              changeFormsubmitecount();
             }}
           >
             <fieldset>
@@ -64,7 +83,8 @@ export default function EditCardForm({ editSelectCategory, currentCardObj }) {
           <form
             id='summary-edit-from'
             onSubmit={(e) => {
-              handlePatchText(e, currentCardObj.id);
+              handlePatchText(e, currentCardObj.id, close);
+              changeFormsubmitecount();
             }}
           >
             <fieldset>
@@ -90,6 +110,10 @@ export default function EditCardForm({ editSelectCategory, currentCardObj }) {
 }
 
 EditCardForm.propTypes = {
+  close: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool,
   editSelectCategory: PropTypes.string,
   currentCardObj: PropTypes.object,
+  editFormSubmitCount: PropTypes.number,
+  setEditFormSubmitCount: PropTypes.func.isRequired,
 };
