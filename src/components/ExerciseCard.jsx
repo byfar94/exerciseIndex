@@ -15,7 +15,7 @@ export default function ExerciseCard({
       <img
         alt='exericse-img'
         className='card-pic'
-        src={`https://exercise-index-images.s3.amazonaws.com/${exercise.imagepath}`}
+        src={`https://exercise-index-images.s3.amazonaws.com/${exercise.id}.jpeg`}
       ></img>
       <h2 className='card-title'>{exercise.extitle}</h2>
       <p className='card-summary'>{exercise.summary}</p>
@@ -26,6 +26,7 @@ export default function ExerciseCard({
           onClick={() => {
             handleDelete(exercise.id);
             setExerciseDeleteCount(exerciseDeleteCount + 1);
+            console.log(exerciseDeleteCount);
           }}
         >
           Delete

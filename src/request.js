@@ -25,7 +25,6 @@ async function handleDelete(id) {
     const data = response.json();
     console.log(data);
     console.log('data deleted');
-    close();
   } catch (err) {
     console.error(err);
   }

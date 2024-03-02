@@ -35,11 +35,19 @@ app.listen(port, () => {
 // Post request at /exercise will add extitle, extpye, bodypart, summar, video_id into the database from front end form, will add picture to s3 bucket
 app.post('/exercise', upload.single('imgfile'), async (req, res) => {
   try {
-    console.log(req.body.extype);
-    console.log(req.file.buffer);
-    let exerciseTitle = req.body.extitle;
-    let exerciseTitleNoSpace = exerciseTitle.replace(/\s+/g, '');
-    let imgFileName = `${exerciseTitleNoSpace}.jpeg`;
+    const sql = `INSERT INTO exercises (extitle, extype, bodypart, summary, videoid) VALUES (?, ?, ?, ?, ?)`;
+
+    // Using mysql2's execute for prepared statements
+    const [insertResult] = await database.execute(sql, [
+      req.body.extitle,
+      req.body.extype,
+      req.body.bodypart,
+      req.body.summary,
+      req.body.videoid,
+    ]);
+
+    const newId = insertResult.insertId;
+    let imgFileName = `${newId}.jpeg`;
 
     const fileBuffer = req.file.buffer;
 
@@ -68,23 +76,7 @@ app.post('/exercise', upload.single('imgfile'), async (req, res) => {
     } catch (error) {
       console.error('Error uploading object to S3:', error);
     }
-    const sql = `INSERT INTO exercises (extitle, extype, bodypart, summary, imagepath, videoid) values (?,?,?,?,?,?)`;
-    console.log(sql);
-    database.query(
-      sql,
-      [
-        `${req.body.extitle}`,
-        `${req.body.extype}`,
-        `${req.body.bodypart}`,
-        `${req.body.summary}`,
-        `${imgFileName}`,
-        `${req.body.videoid}`,
-      ],
-      (err) => {
-        if (err) return console.log(err.message);
-        else return console.log('added to database');
-      },
-    );
+
     return res.json({
       status: 200,
       success: true,
@@ -101,40 +93,32 @@ app.get('/exercise/:category', async (req, res) => {
   const bodyPartArray = ['hand', 'wrist', 'elbow', 'shoulder'];
   const exerciseTypeArray = ['aarom', 'arom', 'prom', 'resistance', 'stretch'];
   const category = req.params.category;
-  console.log(category);
 
-  // Handle fetching all exercises
-  if (category === 'all') {
-    const sql = `SELECT * FROM exercises`;
-    database.query(sql, (err, result) => {
-      if (err) {
-        console.error('Error executing SELECT query:', err);
-        return res.status(500).send('Internal Server Error');
-      }
-      res.status(200).json(result);
-    });
-  } else {
-    // Determine the SQL query based on the category type
-    let sql = '';
-    if (bodyPartArray.includes(category)) {
-      console.log('bodypart backend ran');
-      sql = 'SELECT * FROM exercises WHERE bodypart = ?';
-    } else if (exerciseTypeArray.includes(category)) {
-      console.log('extype backend ran');
-      sql = 'SELECT * FROM exercises WHERE extype = ?';
+  try {
+    let sql;
+    let queryParameters = [];
+
+    // Handle fetching all exercises
+    if (category === 'all') {
+      sql = `SELECT * FROM exercises`;
+    } else if (
+      bodyPartArray.includes(category) ||
+      exerciseTypeArray.includes(category)
+    ) {
+      // Determine the SQL query based on the category type
+      sql = `SELECT * FROM exercises WHERE ${bodyPartArray.includes(category) ? 'bodypart' : 'extype'} = ?`;
+      queryParameters = [category];
     } else {
       // If category does not match any known category, return an error
       return res.status(400).json({ error: 'Invalid category' });
     }
 
     // Execute the determined SQL query
-    database.query(sql, [category], (err, rows) => {
-      if (err) {
-        console.error('Error executing filtered SELECT query:', err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-      res.json(rows);
-    });
+    const [rows] = await database.execute(sql, queryParameters);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -183,44 +167,37 @@ app.get('/exercise/extype/:extype', (req, res) => {
 
 // delete request
 app.delete('/exercise/:id', async (req, res) => {
+  const id = req.params.id;
+
   try {
-    console.log(req.body.objImagePath);
-    console.log(req.body.objTitle);
-    console.log(req.params.id);
-    let id = req.params.id;
+    // Delete the associated image from the S3 bucket
+    const imageFileName = `${id}.jpg`;
+    const params = {
+      Bucket: bucketName,
+      Key: imageFileName,
+    };
 
-    let sqlSel = `SELECT * FROM exercises WHERE id = ?`;
+    await s3.send(new DeleteObjectCommand(params));
+    console.log(`Object ${imageFileName} successfully deleted from S3`);
 
-    database.query(sqlSel, [id], async (err, result) => {
-      if (err) return console.log(err.message);
-      const imagepath = result[0]?.imagepath;
-      const params = {
-        Bucket: bucketName,
-        Key: imagepath,
-      };
+    // Delete the record from the database
+    const sqlDelete = `DELETE FROM exercises WHERE id = ?`;
+    await database.execute(sqlDelete, [id]); // Using async/await with the promise-based query execution
+    console.log(
+      `Exercise with ID ${id} successfully deleted from the database`,
+    );
 
-      try {
-        const deleteCommand = new DeleteObjectCommand(params);
-        await s3.send(deleteCommand);
-        console.log(`Object ${imagepath} successfully deleted from S3`);
-      } catch (error) {
-        console.error('Error deleting object from S3:', error);
-      }
-    });
-
-    const sqlDlt = `DELETE from exercises where id = ?`;
-
-    database.query(sqlDlt, [id], (err) => {
-      if (err) return console.error(err.message);
-    });
-    return res.json({
+    res.json({
       status: 200,
       success: true,
+      message: 'Exercise deleted successfully',
     });
-  } catch {
-    return res.json({
+  } catch (error) {
+    console.error('Error:', error);
+    res.json({
       status: 400,
       success: false,
+      message: 'Failed to delete exercise',
     });
   }
 });
@@ -228,79 +205,61 @@ app.delete('/exercise/:id', async (req, res) => {
 //edit (patch) database (text)
 
 app.patch('/exercise/:id', upload.none(), async (req, res) => {
+  const id = req.params.id;
+
   try {
-    console.log(req.body);
-    console.log(req.params.id);
-    let id = req.params.id;
+    // Update videoid if provided
     if (req.body.videoid) {
-      let videoid = req.body.videoid;
-      let sql = 'UPDATE exercises SET videoid = ? WHERE id = ?';
-      database.query(sql, [videoid, id], (err, results) => {
-        if (err) {
-          console.error('An error occurred while executing the query');
-          throw err;
-        }
-
-        console.log('Update successful', results);
-      });
+      await database.execute('UPDATE exercises SET videoid = ? WHERE id = ?', [
+        req.body.videoid,
+        id,
+      ]);
     }
+
+    // Update extitle if provided
     if (req.body.extitle) {
-      let extitle = req.body.extitle;
-      let sql = 'UPDATE exercises SET extitle = ? WHERE id = ?';
-      database.query(sql, [extitle, id], (err, results) => {
-        if (err) {
-          console.error('An error occurred while executing the query');
-          throw err;
-        }
-
-        console.log('Update successful', results);
-      });
+      await database.execute('UPDATE exercises SET extitle = ? WHERE id = ?', [
+        req.body.extitle,
+        id,
+      ]);
     }
+
+    // Update summary if provided
     if (req.body.summary) {
-      let summary = req.body.summary;
-      let sql = 'UPDATE exercises SET summary = ? WHERE id = ?';
-      database.query(sql, [summary, id], (err, results) => {
-        if (err) {
-          console.error('An error occurred while executing the query');
-          throw err;
-        }
-
-        console.log('Update successful', results);
-      });
+      await database.execute('UPDATE exercises SET summary = ? WHERE id = ?', [
+        req.body.summary,
+        id,
+      ]);
     }
+
+    // Update bodypart if provided
     if (req.body.bodypart) {
-      let bodypart = req.body.bodypart;
-      let sql = 'UPDATE exercises SET bodypart = ? WHERE id = ?';
-      database.query(sql, [bodypart, id], (err, results) => {
-        if (err) {
-          console.error('An error occurred while executing the query');
-          throw err;
-        }
-
-        console.log('Update successful', results);
-      });
+      await database.execute('UPDATE exercises SET bodypart = ? WHERE id = ?', [
+        req.body.bodypart,
+        id,
+      ]);
     }
+
+    // Update extype if provided
     if (req.body.extype) {
-      let extype = req.body.extype;
-      let sql = 'UPDATE exercises SET extype = ? WHERE id = ?';
-      database.query(sql, [extype, id], (err, results) => {
-        if (err) {
-          console.error('An error occurred while executing the query');
-          throw err;
-        }
-
-        console.log('Update successful', results);
-      });
+      await database.execute('UPDATE exercises SET extype = ? WHERE id = ?', [
+        req.body.extype,
+        id,
+      ]);
     }
 
-    return res.json({
+    console.log('Update successful');
+    res.json({
       status: 200,
       success: true,
+      message: 'Exercise updated successfully',
     });
-  } catch {
-    return res.json({
+  } catch (error) {
+    console.error('Error:', error);
+    res.json({
       status: 400,
       success: false,
+      message: 'Failed to update exercise',
     });
   }
 });
@@ -309,43 +268,17 @@ app.patch('/exercise/:id', upload.none(), async (req, res) => {
 
 app.patch('/exercise/image/:id', upload.single('imgfile'), async (req, res) => {
   try {
-    //delete image from s3 bucket
-
-    console.log(req.file.buffer);
-    if (!req.body.extitle) {
-      console.log('no extitle');
-      return;
+    const id = req.params.id;
+    if (!req.file) {
+      console.log('No file uploaded');
+      return res.status(400).json({ error: 'No file uploaded' });
     }
-    let id = req.params.id;
 
-    let sqlSel = `SELECT * FROM exercises WHERE id = ?`;
+    // Use the ID to name the image file for S3
+    const imgFileName = `${id}.jpeg`;
 
-    database.query(sqlSel, [id], async (err, result) => {
-      if (err) return console.log(err.message);
-      const imagepath = result[0]?.imagepath;
-      const params = {
-        Bucket: bucketName,
-        Key: imagepath,
-      };
-
-      try {
-        const deleteCommand = new DeleteObjectCommand(params);
-        await s3.send(deleteCommand);
-        console.log(`Object ${imagepath} successfully deleted from S3`);
-      } catch (error) {
-        console.error('Error deleting object from S3:', error);
-      }
-    });
-
-    //add new image to DB and s3 bucket
-
-    console.log(req.body.extitle);
-    let exerciseTitle = req.body.extitle;
-    let exerciseTitleNoSpace = exerciseTitle.replace(/\s+/g, '');
-    let imgFileName = `${exerciseTitleNoSpace}.jpeg`;
-
+    // Process the image with Sharp
     const fileBuffer = req.file.buffer;
-    console.log('file:' + req.file);
 
     // Get the original width and height of the image
     const { width, height } = await sharp(fileBuffer).metadata();
@@ -360,34 +293,39 @@ app.patch('/exercise/image/:id', upload.single('imgfile'), async (req, res) => {
       .jpeg({ quality: 90 })
       .toBuffer();
 
-    const params = {
-      Bucket: bucketName,
-      Key: imgFileName,
-      Body: resizedImageBuffer,
-    };
+    // Delete existing image from S3 (if any)
     try {
-      const command = new PutObjectCommand(params);
-      await s3.send(command);
-      console.log('Object successfully uploaded to S3');
-    } catch (error) {
-      console.error('Error uploading object to S3:', error);
+      await s3.send(
+        new DeleteObjectCommand({ Bucket: bucketName, Key: imgFileName }),
+      );
+      console.log(`Existing image ${imgFileName} deleted from S3`);
+    } catch (deleteError) {
+      console.error('Error deleting existing object from S3:', deleteError);
+      return;
     }
 
-    let sql = 'UPDATE exercises SET imagepath = ? WHERE id = ?';
-    database.query(sql, [imgFileName, id], (err, results) => {
-      if (err) {
-        console.error('An error occurred while executing the update img query');
-        throw err;
-      }
-
-      console.log('Imgage Update successful', results);
-    });
+    // Upload the new image to S3
+    try {
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: bucketName,
+          Key: imgFileName,
+          Body: resizedImageBuffer,
+        }),
+      );
+      console.log(`New image ${imgFileName} uploaded to S3`);
+    } catch (uploadError) {
+      console.error('Error uploading new object to S3:', uploadError);
+      return res.status(500).json({ error: 'Failed to upload image to S3' });
+    }
 
     return res.json({
       status: 200,
       success: true,
+      message: 'Image updated successfully',
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Server error' });
   }
 });

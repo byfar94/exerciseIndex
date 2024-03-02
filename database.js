@@ -2,9 +2,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import mysql from 'mysql';
-var database = mysql.createConnection(process.env.JAWSDB_URL);
+import mysql from 'mysql2/promise';
+var database = await mysql.createConnection(process.env.JAWSDB_URL);
 
+/*
 database.connect((err) => {
   if (err) {
     throw err;
@@ -12,5 +13,6 @@ database.connect((err) => {
     console.log('connected to mySQL DB');
   }
 });
+*/
 
 export default database;
