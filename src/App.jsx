@@ -15,6 +15,8 @@ const AuthContext = createContext(null);
 function App() {
   //auth
 
+  const [loadingAuth, setLoadingAuth] = useState(true);
+
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -30,10 +32,12 @@ function App() {
         const uid = user.uid;
         console.log(`${uid} logged in`);
         setCurrentUser(user);
+        setLoadingAuth(false);
         console.log(user);
       } else {
         // User is signed out
         setCurrentUser(null);
+        setLoadingAuth(false);
       }
     });
 
@@ -91,7 +95,9 @@ function App() {
 
   return (
     <>
-      <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+      <AuthContext.Provider
+        value={{ currentUser, setCurrentUser, loadingAuth }}
+      >
         <Header
           toggleExerciseForm={toggleExerciseForm}
           toggleLogInForm={toggleLogInForm}

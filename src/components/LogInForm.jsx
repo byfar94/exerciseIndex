@@ -15,10 +15,12 @@ export default function LogInForm() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        alert('you are now logged in :)');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.error({ errorCode, errorMessage });
       });
   }
 

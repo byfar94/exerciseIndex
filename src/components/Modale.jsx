@@ -17,6 +17,7 @@ export default function Modal({ isOpen, close, children }) {
     return () => document.removeEventListener('keyup', handleKeyUp);
   }, [isOpen, close]);
 
+  //if the state is falsy then return null and the component will not be rendered
   if (!isOpen) return null;
   else {
     return (

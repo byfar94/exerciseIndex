@@ -11,24 +11,27 @@ export default function Header({
   setQuery,
 }) {
   //user context
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, loadingAuth } = useContext(AuthContext);
 
   //display correct button based on user log in status
-  let userBtn;
-  if (currentUser) {
-    userBtn = (
-      <button onClick={(e) => handleSignOut(e)} id='log-out-btn'>
-        Log out
-      </button>
-    );
-  } else {
-    userBtn = (
-      <button onClick={toggleLogInForm} id='log-in-btn'>
-        Log In
-      </button>
-    );
-  }
 
+  function renderUserBtn() {
+    if (loadingAuth === true) {
+      return <p>loading...</p>;
+    } else if (currentUser && !loadingAuth) {
+      return (
+        <button onClick={(e) => handleSignOut(e)} id='log-out-btn'>
+          Log out
+        </button>
+      );
+    } else if (!currentUser && !loadingAuth) {
+      return (
+        <button onClick={toggleLogInForm} id='log-in-btn'>
+          Log In
+        </button>
+      );
+    }
+  }
   //sign use out logic
   function handleSignOut(e) {
     e.preventDefault();
@@ -54,13 +57,16 @@ export default function Header({
         <div id='header-btn-contain'>
           <div id='user-btn-contain'>
             {/*user button toggle above*/}
-            {userBtn}
+            {renderUserBtn()}
           </div>
-          <div id='add-exercise-btn-contain'>
-            <button onClick={toggleExerciseForm} id='add-exercise-btn'>
-              Add Exercise
-            </button>
-          </div>
+          {/* if current useing is true render elements below otherwise, return/render null */}
+          {currentUser && (
+            <div id='add-exercise-btn-contain'>
+              <button onClick={toggleExerciseForm} id='add-exercise-btn'>
+                Add Exercise
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>
