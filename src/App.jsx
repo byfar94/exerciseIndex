@@ -6,8 +6,40 @@ import AddExerciseForm from './components/AddExerciseForm';
 import LogInForm from './components/LogInForm';
 import Modal from './components/Modale';
 import EditCardForm from './components/EditCardForm';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase.js';
+import { createContext, useContext } from 'react';
+
+const AuthContext = createContext(null);
 
 function App() {
+  //auth
+
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    //// `onAuthStateChanged` sets up a listener for authentication state changes.
+    // It returns a function (saved here in `stopListeningToAuth`) that, when called,
+    // will remove this listener. React will automatically call this cleanup function
+    // to remove the listener either when the component unmounts or before the effect
+    // re-runs, ensuring resources are properly managed and no memory leaks occur.
+    const stopListeningToAuth = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        console.log(`${uid} logged in`);
+        setCurrentUser(user);
+        console.log(user);
+      } else {
+        // User is signed out
+        setCurrentUser(null);
+      }
+    });
+
+    return stopListeningToAuth;
+  });
+
   //sidebar State
   const [sidebarStatus, setSideBarStatus] = useState(false);
   const toggleSidebar = () => {
@@ -59,49 +91,51 @@ function App() {
 
   return (
     <>
-      <Header
-        toggleExerciseForm={toggleExerciseForm}
-        toggleLogInForm={toggleLogInForm}
-        setQuery={setQuery}
-      ></Header>
-      <MainContent
-        toggleSidebar={toggleSidebar}
-        exerciseFormSubmitCount={exerciseFormSubmitCount}
-        exerciseDeleteCount={exerciseDeleteCount}
-        setExerciseDeleteCount={setExerciseDeleteCount}
-        query={query}
-        exerciseCategory={exerciseCategory}
-        toggleEditFormStatus={toggleEditFormStatus}
-        setEditSelectCategory={setEditSelectCategory}
-        setCurrentCardObj={setCurrentCardObj}
-        editFormSubmitCount={editFormSubmitCount}
-      ></MainContent>
-      <Modal isOpen={sidebarStatus} close={toggleSidebar}>
-        <Sidebar setExerciseCategory={setExerciseCategory} />
-      </Modal>
-      <Modal isOpen={exerciseFormStatus} close={toggleExerciseForm}>
-        <AddExerciseForm
-          isOpen={exerciseFormStatus}
-          close={toggleExerciseForm}
+      <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+        <Header
+          toggleExerciseForm={toggleExerciseForm}
+          toggleLogInForm={toggleLogInForm}
+          setQuery={setQuery}
+        ></Header>
+        <MainContent
+          toggleSidebar={toggleSidebar}
           exerciseFormSubmitCount={exerciseFormSubmitCount}
-          setExerciseFormSubmitCount={setExerciseFormSubmitCount}
-        />
-      </Modal>
-      <Modal isOpen={logInFormStatus} close={toggleLogInForm}>
-        <LogInForm />
-      </Modal>
-      <Modal isOpen={editFormStatus} close={toggleEditFormStatus}>
-        <EditCardForm
-          isOpen={editFormStatus}
-          close={toggleEditFormStatus}
-          editSelectCategory={editSelectCategory}
-          currentCardObj={currentCardObj}
+          exerciseDeleteCount={exerciseDeleteCount}
+          setExerciseDeleteCount={setExerciseDeleteCount}
+          query={query}
+          exerciseCategory={exerciseCategory}
+          toggleEditFormStatus={toggleEditFormStatus}
+          setEditSelectCategory={setEditSelectCategory}
+          setCurrentCardObj={setCurrentCardObj}
           editFormSubmitCount={editFormSubmitCount}
-          setEditFormSubmitCount={setEditFormSubmitCount}
-        />
-      </Modal>
+        ></MainContent>
+        <Modal isOpen={sidebarStatus} close={toggleSidebar}>
+          <Sidebar setExerciseCategory={setExerciseCategory} />
+        </Modal>
+        <Modal isOpen={exerciseFormStatus} close={toggleExerciseForm}>
+          <AddExerciseForm
+            isOpen={exerciseFormStatus}
+            close={toggleExerciseForm}
+            exerciseFormSubmitCount={exerciseFormSubmitCount}
+            setExerciseFormSubmitCount={setExerciseFormSubmitCount}
+          />
+        </Modal>
+        <Modal isOpen={logInFormStatus} close={toggleLogInForm}>
+          <LogInForm />
+        </Modal>
+        <Modal isOpen={editFormStatus} close={toggleEditFormStatus}>
+          <EditCardForm
+            isOpen={editFormStatus}
+            close={toggleEditFormStatus}
+            editSelectCategory={editSelectCategory}
+            currentCardObj={currentCardObj}
+            editFormSubmitCount={editFormSubmitCount}
+            setEditFormSubmitCount={setEditFormSubmitCount}
+          />
+        </Modal>
+      </AuthContext.Provider>
     </>
   );
 }
 
-export default App;
+export { App, AuthContext };
