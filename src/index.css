@@ -218,7 +218,8 @@ video {
 
 .card-contain {
   display: grid;
-  grid-template-rows: 16rem 2rem 10rem 2rem;
+  grid-template-rows: 14rem 2rem 8rem 2rem;
+  height: 30rem;
   align-items: start;
   border-radius: 1rem;
   gap: 0.5rem;
@@ -242,17 +243,25 @@ video {
   padding: 0.4rem;
 }
 
-.card-description {
+.card-summary {
   font-size: 0.9rem;
   padding: 0.4rem;
 }
 
-.card-video iframe {
+.card-video {
   position: absolute;
   top: 0px;
-  height: 16.5rem;
+  height: 14rem;
   width: 22rem;
   border-radius: 1rem 1rem 0rem 0rem;
+  z-index: 5;
+}
+
+.card-video iframe {
+  height: 14rem;
+  width: 22rem;
+  border-radius: 1rem 1rem 0rem 0rem;
+  border: none;
 }
 
 .edit-btn-contain {
@@ -403,17 +412,45 @@ textarea {
   background-color: var(--main-light);
 }
 
-/* <-------------------------Text Edit form ----------------------> */
+/* <-------------------------Text/ Image Edit form ----------------------> */
 
 #text-edit-form,
-#image-edit-form {
+#summary-edit-from,
+#img-edit-form {
   position: fixed;
   z-index: 20;
   background-color: var(--main-dark);
+  color: var(--main-text);
   left: 50vw;
   top: 50vh;
   transform: translate(-50%, -50%);
-  padding: 1rem;
+  padding: 0.5rem;
+}
+
+#text-edit-form input,
+#summary-edit-from textarea,
+#img-edit-form input {
+  background-color: var(--main-med);
+  border: none;
+  border-radius: var(--link-border-rad);
+  border-color: var(--main-light);
+}
+
+#text-edit-fieldset p,
+#summary-edit-from fieldset p,
+#img-edit-fieldset p {
+  padding: 0.5rem;
+}
+
+#text-edit-form fieldset p button,
+#summary-edit-from fieldset p button,
+#img-edit-form fieldset p button {
+  padding: var(--link-padding);
+  cursor: pointer;
+  background-color: var(--main-med);
+  border: none;
+  border-radius: var(--link-border-rad);
+  border-color: var(--main-light);
 }
 
 /* <------------------------- background ----------------------> */

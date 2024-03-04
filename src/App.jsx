@@ -8,7 +8,7 @@ import Modal from './components/Modale';
 import EditCardForm from './components/EditCardForm';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase.js';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 
 const AuthContext = createContext(null);
 

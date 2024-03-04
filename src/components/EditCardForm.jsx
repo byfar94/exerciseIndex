@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { handlePatchText, handlePatchImgFile } from '../request.js';
 
 export default function EditCardForm({
-  isOpen,
   close,
   editSelectCategory,
   currentCardObj,
@@ -23,13 +22,13 @@ export default function EditCardForm({
       case 'videoid':
         return (
           <form
-            id='text-edit-from'
+            id='text-edit-form'
             onSubmit={(e) => {
               handlePatchText(e, currentCardObj.id, close);
               changeFormsubmitecount();
             }}
           >
-            <fieldset>
+            <fieldset id='text-edit-fieldset'>
               <legend>Edit:</legend>
               <p>
                 <label htmlFor={`${editSelectCategory}`}></label>
@@ -49,7 +48,7 @@ export default function EditCardForm({
       case 'imgfile':
         return (
           <form
-            id='img-edit-from'
+            id='img-edit-form'
             encType='multipart/form-data'
             onSubmit={(e) => {
               handlePatchImgFile(
@@ -61,7 +60,7 @@ export default function EditCardForm({
               changeFormsubmitecount();
             }}
           >
-            <fieldset>
+            <fieldset id='img-edit-fieldset'>
               <legend>Edit:</legend>
               <p>
                 <label htmlFor={`${editSelectCategory}`}></label>

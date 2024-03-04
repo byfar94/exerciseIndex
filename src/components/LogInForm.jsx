@@ -15,6 +15,7 @@ export default function LogInForm() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        console.log(user);
         alert('you are now logged in :)');
       })
       .catch((error) => {
