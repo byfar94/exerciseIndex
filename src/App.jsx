@@ -66,6 +66,7 @@ function App() {
     setlogInFormStatus(!logInFormStatus);
   };
 
+  //exercise delete count, used to refresh api request to show updated data
   const [exerciseDeleteCount, setExerciseDeleteCount] = useState(0);
 
   //search query state
@@ -108,10 +109,8 @@ function App() {
       console.log(`Width: ${window.innerWidth}, Height: ${window.innerHeight}`);
     }
 
-    // Add event listener
     window.addEventListener('resize', handleResize);
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -154,7 +153,7 @@ function App() {
           />
         </Modal>
         <Modal isOpen={logInFormStatus} close={toggleLogInForm}>
-          <LogInForm />
+          <LogInForm close={toggleLogInForm} />
         </Modal>
         <Modal isOpen={editFormStatus} close={toggleEditFormStatus}>
           <EditCardForm

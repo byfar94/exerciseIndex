@@ -1,7 +1,8 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
+import PropTypes from 'prop-types';
 
-export default function LogInForm() {
+export default function LogInForm({ close }) {
   function handleLogInSubmit(e) {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -17,6 +18,7 @@ export default function LogInForm() {
         const user = userCredential.user;
         console.log(user);
         alert('you are now logged in :)');
+        close();
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -58,3 +60,7 @@ export default function LogInForm() {
     </>
   );
 }
+
+LogInForm.propTypes = {
+  close: PropTypes.func.isRequired,
+};
