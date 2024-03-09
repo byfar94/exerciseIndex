@@ -93,6 +93,32 @@ function App() {
   //current exericse card id, use in editing cards form
   const [currentCardObj, setCurrentCardObj] = useState({});
 
+  //window size
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+      console.log(`Width: ${window.innerWidth}, Height: ${window.innerHeight}`);
+    }
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  console.log(windowSize);
+
   return (
     <>
       <AuthContext.Provider
@@ -102,6 +128,7 @@ function App() {
           toggleExerciseForm={toggleExerciseForm}
           toggleLogInForm={toggleLogInForm}
           setQuery={setQuery}
+          windowSize={windowSize}
         ></Header>
         <MainContent
           toggleSidebar={toggleSidebar}

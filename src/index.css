@@ -545,6 +545,7 @@ a {
     align-items: center;
   }
 
+  /*
   header {
     flex-direction: row;
   }
@@ -568,4 +569,5 @@ a {
   #main-header-title {
     font-size: 1rem;
   }
+*/
 }

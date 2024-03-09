@@ -15,7 +15,11 @@ export default function Header({
   toggleExerciseForm,
   toggleLogInForm,
   setQuery,
+  windowSize,
 }) {
+  //mobile screen size
+  const mobileScreenSize = 650;
+  console.log(windowSize.width);
   //user context
   const { currentUser, loadingAuth } = useContext(AuthContext);
 
@@ -27,13 +31,15 @@ export default function Header({
     } else if (currentUser && !loadingAuth) {
       return (
         <button id='log-out-btn' onClick={(e) => handleSignOut(e)}>
-          Log out <img alt='log-out' src={logOutSvg}></img>
+          {windowSize.width > mobileScreenSize ? 'Log out' : null}
+          <img alt='log-out' src={logOutSvg}></img>
         </button>
       );
     } else if (!currentUser && !loadingAuth) {
       return (
         <button id='log-in-btn' onClick={toggleLogInForm}>
-          Log In <img alt='log-in' src={logInSvg}></img>
+          {windowSize.width > mobileScreenSize ? 'Log in' : null}
+          <img alt='log-in' src={logInSvg}></img>
         </button>
       );
     }
@@ -57,7 +63,9 @@ export default function Header({
       <section id='header'>
         <div id='l-header-contain'>
           <img alt='site icon' id='site-icon' src={weightSvg}></img>
-          <h1 id='main-header-title'>Exercise Index</h1>
+          <h1 id='main-header-title'>
+            {windowSize.width > mobileScreenSize ? 'Exercise Index' : null}
+          </h1>
         </div>
         <Search setQuery={setQuery}></Search>
         <div id='header-btn-contain'>
@@ -69,7 +77,7 @@ export default function Header({
           {currentUser && (
             <div id='add-exercise-btn-contain'>
               <button onClick={toggleExerciseForm} id='add-exercise-btn'>
-                Add Exercise
+                {windowSize.width > mobileScreenSize ? 'Add Exercise' : null}
                 <img alt='addition sign' src={AddSvg}></img>
               </button>
             </div>
@@ -84,4 +92,5 @@ Header.propTypes = {
   toggleExerciseForm: PropTypes.func.isRequired,
   toggleLogInForm: PropTypes.func.isRequired,
   setQuery: PropTypes.func.isRequired,
+  windowSize: PropTypes.object,
 };
