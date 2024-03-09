@@ -5,6 +5,12 @@ import { AuthContext } from '../App';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 
+//images
+import weightSvg from '../assets/images/weight.svg';
+import logInSvg from '../assets/images/log-in.svg';
+import logOutSvg from '../assets/images/log-out.svg';
+import AddSvg from '../assets/images/add.svg';
+
 export default function Header({
   toggleExerciseForm,
   toggleLogInForm,
@@ -20,14 +26,14 @@ export default function Header({
       return <p>loading...</p>;
     } else if (currentUser && !loadingAuth) {
       return (
-        <button onClick={(e) => handleSignOut(e)} id='log-out-btn'>
-          Log out
+        <button id='log-out-btn' onClick={(e) => handleSignOut(e)}>
+          Log out <img alt='log-out' src={logOutSvg}></img>
         </button>
       );
     } else if (!currentUser && !loadingAuth) {
       return (
-        <button onClick={toggleLogInForm} id='log-in-btn'>
-          Log In
+        <button id='log-in-btn' onClick={toggleLogInForm}>
+          Log In <img alt='log-in' src={logInSvg}></img>
         </button>
       );
     }
@@ -50,7 +56,7 @@ export default function Header({
     <>
       <section id='header'>
         <div id='l-header-contain'>
-          <img alt='site icon' id='site-icon'></img>
+          <img alt='site icon' id='site-icon' src={weightSvg}></img>
           <h1 id='main-header-title'>Exercise Index</h1>
         </div>
         <Search setQuery={setQuery}></Search>
@@ -64,6 +70,7 @@ export default function Header({
             <div id='add-exercise-btn-contain'>
               <button onClick={toggleExerciseForm} id='add-exercise-btn'>
                 Add Exercise
+                <img alt='addition sign' src={AddSvg}></img>
               </button>
             </div>
           )}

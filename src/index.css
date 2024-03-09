@@ -91,7 +91,7 @@ video {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 0.4rem;
   font-size: 1.2rem;
 }
 
@@ -141,6 +141,9 @@ video {
 #log-in-btn,
 #log-out-btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
   border-radius: var(--link-border-rad);
   border: none;
   padding: var(--link-padding);
@@ -160,6 +163,9 @@ video {
 
 #add-exercise-btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
   background-color: var(--main-dark);
   border-radius: var(--link-border-rad);
   padding: var(--link-padding);
@@ -190,6 +196,8 @@ video {
 
 .cat-title {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: row;
   cursor: pointer;
   padding: var(--link-padding);
