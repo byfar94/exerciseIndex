@@ -6,7 +6,7 @@ function filterValueOfKeyByQuery(objArray, query, key) {
       return lowerCaseValueAsString.includes(lowerCaseQuery);
     });
   } else {
-    console.error(
+    console.log(
       'Object not found, no ObjArray in filterValuefKeyByQuery function',
     );
   }

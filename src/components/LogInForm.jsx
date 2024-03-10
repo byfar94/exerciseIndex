@@ -9,9 +9,6 @@ export default function LogInForm({ close }) {
     const email = fd.get('loginemailinput');
     const password = fd.get('loginpasswordinput');
 
-    console.log(email);
-    console.log(password);
-
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
@@ -30,7 +27,7 @@ export default function LogInForm({ close }) {
   return (
     <>
       <div className='sign-in-contain' id='log-in-container'>
-        <form id='log-in-form' onSubmit={handleLogInSubmit}>
+        <form id='log-in-form' className='my-form' onSubmit={handleLogInSubmit}>
           <fieldset id='log-in-fieldset'>
             <div className='email-contain'>
               <label id='loginemaillabel'>Email</label>
@@ -48,12 +45,14 @@ export default function LogInForm({ close }) {
                 type='password'
               ></input>
             </div>
-            <input
+            <button
               id='log-in-submit-btn'
               name='log-in-submit-btn'
               type='submit'
               value='submit'
-            ></input>
+            >
+              Log in
+            </button>
           </fieldset>
         </form>
       </div>

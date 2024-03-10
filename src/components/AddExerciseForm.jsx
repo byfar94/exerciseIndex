@@ -54,13 +54,14 @@ export default function AddExerciseForm({
     <section id='form-contain'>
       <form
         id='exercise-form'
+        className='my-form'
         encType='multipart/form-data'
         onSubmit={sendExerciseData}
       >
         <fieldset id='exercise-fieldset'>
           <legend>Add Exercise Card</legend>
           <div>
-            <label htmlFor='extitle'>exercise title</label>
+            <label htmlFor='extitle'>Exercise Title</label>
             <input
               type='text'
               id='extitle'
@@ -73,7 +74,7 @@ export default function AddExerciseForm({
             />
           </div>
           <div>
-            <label htmlFor='extype'>exercise type</label>
+            <label htmlFor='extype'>Exercise Type</label>
             <input
               type='text'
               id='extype'
@@ -86,7 +87,7 @@ export default function AddExerciseForm({
             />
           </div>
           <div>
-            <label htmlFor='bodypart'>body part</label>
+            <label htmlFor='bodypart'>Body Part</label>
             <input
               type='text'
               id='bodypart'
@@ -99,7 +100,7 @@ export default function AddExerciseForm({
             />
           </div>
           <div>
-            <label htmlFor='summary'>exercise summary</label>
+            <label htmlFor='summary'>Exercise Summary</label>
             <textarea
               id='summary'
               name='summary'
@@ -112,7 +113,7 @@ export default function AddExerciseForm({
             ></textarea>
           </div>
           <div>
-            <label htmlFor='imgfile'> Image file</label>
+            <label htmlFor='imgfile'> Image File</label>
             <input
               type='file'
               id='imgfile'
@@ -134,9 +135,9 @@ export default function AddExerciseForm({
               }}
             />
           </div>
-          <div>
-            <input type='submit' value='submit' id='exercise-form-submit' />
-          </div>
+          <button type='submit' value='submit' id='exercise-form-submit'>
+            Add Exercise
+          </button>
         </fieldset>
       </form>
     </section>

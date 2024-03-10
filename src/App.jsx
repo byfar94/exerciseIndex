@@ -106,7 +106,6 @@ function App() {
         width: window.innerWidth,
         height: window.innerHeight,
       });
-      console.log(`Width: ${window.innerWidth}, Height: ${window.innerHeight}`);
     }
 
     window.addEventListener('resize', handleResize);
@@ -115,8 +114,6 @@ function App() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
-  console.log(windowSize);
 
   return (
     <>

@@ -17,6 +17,9 @@ export default function EditSelectForm({
   }
   return (
     <form className='edit-select-form' onSubmit={(e) => handleSelectOption(e)}>
+      <label className='edit-options-label sr-only' htmlFor='edit-options'>
+        Edit Options
+      </label>
       <select className='edit-options' name='edit-options'>
         <option value='extitle' className='option-edit'>
           Title
@@ -38,7 +41,7 @@ export default function EditSelectForm({
         </option>
       </select>
       <button
-        id='editSelectSubmit'
+        id={`editSelectSubmit-${cardObject.extitle}`}
         name='editSelectSubmit'
         value='Edit'
         type='submit'

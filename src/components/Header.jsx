@@ -19,7 +19,6 @@ export default function Header({
 }) {
   //mobile screen size
   const mobileScreenSize = 650;
-  console.log(windowSize.width);
   //user context
   const { currentUser, loadingAuth } = useContext(AuthContext);
 

@@ -55,8 +55,8 @@ app.post('/exercise', upload.single('imgfile'), async (req, res) => {
     const { width, height } = await sharp(fileBuffer).metadata();
 
     // Calculate the new dimensions by halving both width and height
-    const newWidth = Math.round(width / 2);
-    const newHeight = Math.round(height / 2);
+    const newWidth = 352;
+    const newHeight = 224;
 
     // Convert and resize the image using sharp
     const resizedImageBuffer = await sharp(fileBuffer)
@@ -122,49 +122,6 @@ app.get('/exercise/:category', async (req, res) => {
   }
 });
 
-/*
-//query all
-app.get('/exercise', async (req, res) => {
-  const sql = `SELECT * FROM exercises`;
-  database.query(sql, function (err, result) {
-    if (err) {
-      console.error('Error executing SELECT query:', err);
-      res.status(500).send('Internal Server Error');
-      return;
-    }
-    console.log(result);
-    res.status(200).json(result);
-  });
-});
-
-//query by bodypart
-app.get('/exercise/bodypart/:bodypart', (req, res) => {
-  console.log('boydpart backend ran');
-  const bodypart = req.params.bodypart; // Corrected parameter name
-  const sql = 'SELECT * FROM exercises WHERE bodypart = ?';
-  console.log(bodypart);
-  database.query(sql, [bodypart], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-    res.json(rows);
-  });
-});
-
-// query by extype
-app.get('/exercise/extype/:extype', (req, res) => {
-  console.log('extype backend ran');
-  const extype = req.params.extype; // Corrected parameter name
-  const sql = 'SELECT * FROM exercises WHERE extype = ?';
-  console.log(extype);
-  database.query(sql, [extype], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-    res.json(rows);
-  });
-}); */
-
 // delete request
 app.delete('/exercise/:id', async (req, res) => {
   const id = req.params.id;
@@ -182,7 +139,7 @@ app.delete('/exercise/:id', async (req, res) => {
 
     // Delete the record from the database
     const sqlDelete = `DELETE FROM exercises WHERE id = ?`;
-    await database.execute(sqlDelete, [id]); // Using async/await with the promise-based query execution
+    await database.execute(sqlDelete, [id]);
     console.log(
       `Exercise with ID ${id} successfully deleted from the database`,
     );
@@ -284,8 +241,8 @@ app.patch('/exercise/image/:id', upload.single('imgfile'), async (req, res) => {
     const { width, height } = await sharp(fileBuffer).metadata();
 
     // Calculate the new dimensions by halving both width and height
-    const newWidth = Math.round(width / 2);
-    const newHeight = Math.round(height / 2);
+    const newWidth = 352;
+    const newHeight = 224;
 
     // Convert and resize the image using sharp
     const resizedImageBuffer = await sharp(fileBuffer)

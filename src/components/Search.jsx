@@ -10,7 +10,7 @@ export default function Search({ setQuery }) {
     <div id='search-contain'>
       <div id='search-component'>
         <img id='mag' alt='magnifying glass' src={searchSvg}></img>
-        <label htmlFor='search' className='invis'>
+        <label htmlFor='search' className='sr-only'>
           Search
         </label>
         <input

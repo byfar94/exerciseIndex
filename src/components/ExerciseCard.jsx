@@ -56,7 +56,6 @@ export default function ExerciseCard({
             onClick={() => {
               handleDelete(exercise.id);
               setExerciseDeleteCount(exerciseDeleteCount + 1);
-              console.log(exerciseDeleteCount);
             }}
           >
             Delete

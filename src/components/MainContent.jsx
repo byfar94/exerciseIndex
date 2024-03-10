@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
-import ExerciseCard from './ExerciseCard';
+import { useEffect, useState, lazy, Suspense } from 'react';
+/*import ExerciseCard from './ExerciseCard';*/
 import { getExerciseData } from '../request';
 import PropTypes from 'prop-types';
 import rightArrow from '../assets/images/right-arrow.svg';
 // filterValueOfKeyByQuery(arrayOfObjects, query, key)
 import { filterValueOfKeyByQuery } from '../FilterQuery';
+import CardLoading from './CardLoading';
+
+const ExerciseCard = lazy(() => import('./ExerciseCard'));
 
 export default function MainContent({
   toggleSidebar,
@@ -51,20 +54,22 @@ export default function MainContent({
             className='cat-title'
             id='catagory-title-btn'
           >
-            All exercises
+            All Exercises
             <img alt='dropdown icon' id='dropdown-icon' src={rightArrow}></img>
           </h2>
         </div>
-        {data ? (
-          <ExerciseCard
-            exerciseData={filteredData}
-            exerciseDeleteCount={exerciseDeleteCount}
-            setExerciseDeleteCount={setExerciseDeleteCount}
-            toggleEditFormStatus={toggleEditFormStatus}
-            setEditSelectCategory={setEditSelectCategory}
-            setCurrentCardObj={setCurrentCardObj}
-          ></ExerciseCard>
-        ) : null}
+        <Suspense fallback={<CardLoading />}>
+          {data ? (
+            <ExerciseCard
+              exerciseData={filteredData}
+              exerciseDeleteCount={exerciseDeleteCount}
+              setExerciseDeleteCount={setExerciseDeleteCount}
+              toggleEditFormStatus={toggleEditFormStatus}
+              setEditSelectCategory={setEditSelectCategory}
+              setCurrentCardObj={setCurrentCardObj}
+            ></ExerciseCard>
+          ) : null}
+        </Suspense>
       </div>
     </section>
   );

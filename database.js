@@ -5,7 +5,6 @@ dotenv.config();
 import mysql from 'mysql2/promise';
 var database = await mysql.createConnection(process.env.JAWSDB_URL);
 
-/*
 database.connect((err) => {
   if (err) {
     throw err;
@@ -13,6 +12,5 @@ database.connect((err) => {
     console.log('connected to mySQL DB');
   }
 });
-*/
 
 export default database;

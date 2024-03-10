@@ -1,4 +1,18 @@
-/* <------------------------- reset ----------------------> */
+/* <------------------------- Index ----------------------> */
+/*
+1) reset
+2) Misc
+3) Modal
+4) background
+5) header
+6) main
+7) sidebar
+8) Exercise Cards
+9) General forms CSS
+10) Media responsiveness
+*/
+
+/* <------------------------- 1) reset ----------------------> */
 /* makes sizing simpler */
 
 *,
@@ -44,13 +58,34 @@ video {
   --main-med: rgb(31, 41, 55);
   --main-light: rgb(55, 65, 81);
   --main-text: rgb(229, 231, 235);
+  --accent-color-light: rgb(101, 116, 255);
   --accent-color: rgb(88, 101, 242);
+  --accent-color-dark: rgb(74, 85, 205);
   --alert-color: rgb(220, 20, 60);
+  --alert-color-dark: rgb(187, 17, 51);
   --link-border-rad: 0.2rem;
   --link-padding: 0.2rem 0.4rem 0.2rem 0.4rem;
 }
 
-/* <------------------------- Modal ----------------------> */
+/* <------------------------- 2) Misc ----------------------> */
+
+.invis {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap; /* added to ensure the text does not wrap */
+}
+
+/* <------------------------- 3) Modal ----------------------> */
 
 .modal-overlay {
   position: fixed;
@@ -65,7 +100,24 @@ video {
   z-index: 1000;
 }
 
-/* <------------------------- header ----------------------> */
+/* <------------------------- 4) background ----------------------> */
+#background {
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.background-out {
+  position: none;
+}
+
+.background-in {
+  position: fixed;
+  z-index: 15;
+}
+
+/* <------------------------- 5) header ----------------------> */
 
 #header {
   display: flex;
@@ -179,7 +231,7 @@ video {
   transition: 100ms ease-out;
 }
 
-/* <------------------------- main ----------------------> */
+/* <------------------------- 6) main ----------------------> */
 
 #main-content {
   position: relative;
@@ -212,273 +264,7 @@ video {
   color: var(--accent-color);
 }
 
-/* <------------------------- Exercise Cards ----------------------> */
-
-#exercise-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 22rem);
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 0 1rem 1rem;
-  background-color: var(--main-dark);
-}
-
-.card-contain {
-  display: grid;
-  grid-template-rows: 14rem 2rem 8rem 2rem;
-  height: 30rem;
-  align-items: start;
-  border-radius: 1rem;
-  gap: 0.5rem;
-  position: relative;
-  background-color: var(--main-med);
-}
-
-.card-pic {
-  width: 100%;
-  height: 14rem;
-  border-radius: 1rem 1rem 1rem 1rem;
-}
-
-.card-pic:hover {
-  opacity: 0.8;
-  cursor: pointer;
-}
-
-.card-title {
-  font-size: 1.4rem;
-  padding: 0.4rem;
-}
-
-.card-summary {
-  font-size: 0.9rem;
-  padding: 0.4rem;
-}
-
-.card-video {
-  position: absolute;
-  top: 0px;
-  height: 14rem;
-  width: 22rem;
-  border-radius: 1rem 1rem 0rem 0rem;
-  z-index: 5;
-}
-
-.card-video iframe {
-  height: 14rem;
-  width: 22rem;
-  border-radius: 1rem 1rem 0rem 0rem;
-  border: none;
-}
-
-.edit-btn-contain {
-  color: var(--main-text);
-}
-
-.delete-btn {
-  border: none;
-  border-radius: var(--link-border-rad);
-  background-color: var(--alert-color);
-  width: 4rem;
-  height: 2rem;
-  margin: 0.5rem;
-  cursor: pointer;
-  color: var(--main-text);
-}
-.delete-btn:hover {
-  border: none;
-  background-color: var(--alert-color);
-  width: 4rem;
-  height: 2rem;
-  margin: 0.5rem;
-}
-
-.edit-select-form * {
-  background-color: var(--main-dark);
-  border: none;
-  padding: var(--link-padding);
-  border: var(--link-padding);
-  cursor: pointer;
-  color: var(--main-text);
-}
-
-.edit-select-form *:hover {
-  background-color: var(--main-light);
-}
-
-.edit-btn-contain {
-  display: flex;
-  align-items: center;
-}
-
-.show {
-  z-index: 5;
-}
-
-.hide {
-  z-index: -5;
-}
-
-.sum-tab {
-  align-self: flex-start;
-}
-
-.sum-tab:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.summary {
-  display: none;
-}
-
-.summary.on {
-  display: block;
-}
-
-.invis {
-  display: none !important;
-}
-
-.moveout {
-  left: -10rem;
-}
-
-/* <------------------------- Exercise form ----------------------> */
-
-#form-contain {
-  position: fixed;
-  z-index: 20;
-  background-color: var(--main-dark);
-  left: 50vw;
-  top: 50vh;
-  transform: translate(-50%, -50%);
-  padding: 1rem;
-}
-
-#exercise-fieldset {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 1rem;
-}
-
-#form-contain.form-in {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-#exercise-form input,
-textarea {
-  background-color: var(--main-med);
-  border: none;
-  border-radius: var(--link-border-rad);
-  border-color: var(--main-light);
-}
-
-#exercise-form-submit {
-  padding: var(--link-padding);
-  border-radius: var(--link-border-rad);
-  cursor: pointer;
-}
-
-#exercise-form-submit:hover {
-  background-color: var(--main-light);
-}
-
-/* <------------------------- log in/ sign up form ----------------------> */
-
-.sign-in-contain {
-  position: fixed;
-  z-index: 20;
-  background-color: var(--main-dark);
-  color: black;
-  left: 50vw;
-  top: 50vh;
-  transform: translate(-50%, -50%);
-  padding: 1rem;
-}
-
-#log-in-fieldset div {
-  padding: 0.5rem;
-}
-
-#log-in-form input {
-  background-color: var(--main-med);
-  border: none;
-  border-radius: var(--link-border-rad);
-}
-
-#log-in-submit-btn {
-  cursor: pointer;
-  border-radius: var(--link-border-rad);
-  padding: var(--link-padding);
-}
-
-#log-in-submit-btn:hover {
-  background-color: var(--main-light);
-}
-
-/* <-------------------------Text/ Image Edit form ----------------------> */
-
-#text-edit-form,
-#summary-edit-from,
-#img-edit-form {
-  position: fixed;
-  z-index: 20;
-  background-color: var(--main-dark);
-  color: var(--main-text);
-  left: 50vw;
-  top: 50vh;
-  transform: translate(-50%, -50%);
-  padding: 0.5rem;
-}
-
-#text-edit-form input,
-#summary-edit-from textarea,
-#img-edit-form input {
-  background-color: var(--main-med);
-  border: none;
-  border-radius: var(--link-border-rad);
-  border-color: var(--main-light);
-}
-
-#text-edit-fieldset p,
-#summary-edit-from fieldset p,
-#img-edit-fieldset p {
-  padding: 0.5rem;
-}
-
-#text-edit-form fieldset p button,
-#summary-edit-from fieldset p button,
-#img-edit-form fieldset p button {
-  padding: var(--link-padding);
-  cursor: pointer;
-  background-color: var(--main-med);
-  border: none;
-  border-radius: var(--link-border-rad);
-  border-color: var(--main-light);
-}
-
-/* <------------------------- background ----------------------> */
-#background {
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.background-out {
-  position: none;
-}
-
-.background-in {
-  position: fixed;
-  z-index: 15;
-}
-
-/* <------------------------- sidebar ----------------------> */
+/* <------------------------- 7) sidebar ----------------------> */
 
 #sidebar {
   position: fixed;
@@ -525,17 +311,176 @@ a {
   padding: var(--link-padding);
 }
 
-/* <------------------------- pop UP form add exercises ----------------------> */
-.pop-up-contain {
-  position: fixed;
-  z-index: 20;
-  background-color: white;
-  left: 50vw;
-  top: 50vh;
-  transform: translate(-50%, -50%);
+/* <------------------------- 8) Exercise Cards ----------------------> */
+
+#exercise-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 22rem);
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem 1rem;
+  background-color: var(--main-dark);
 }
 
-/* <------------------------- Media responsiveness ----------------------> */
+/* loading state for card contain  */
+.card-loading {
+  height: 30rem;
+  width: 22rem;
+  background-color: var(--main-med);
+  border-radius: 1rem;
+}
+
+.card-contain {
+  display: grid;
+  grid-template-rows: 14rem 2rem 9rem 2rem;
+  height: 30rem;
+  align-items: start;
+  border-radius: 1rem;
+  gap: 0.5rem;
+  position: relative;
+  background-color: var(--main-med);
+}
+
+.card-pic {
+  width: 100%;
+  height: 14rem;
+  border-radius: 1rem 1rem 1rem 1rem;
+}
+
+.card-pic:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  padding: 0.4rem;
+}
+
+.card-summary {
+  font-size: 0.9rem;
+  padding: 0.4rem;
+}
+
+.card-video {
+  position: absolute;
+  top: 0px;
+  height: 14rem;
+  width: 22rem;
+  border-radius: 1rem 1rem 0rem 0rem;
+  z-index: 5;
+}
+
+.card-video iframe {
+  height: 14rem;
+  width: 22rem;
+  border-radius: 1rem 1rem 0rem 0rem;
+  border: none;
+}
+
+/* 8.1) edit form within exercise cards */
+
+.edit-select-form {
+  display: flex;
+  flex-direction: row;
+  gap: 0.2rem;
+}
+
+.edit-btn-contain {
+  color: var(--main-text);
+}
+
+.delete-btn {
+  border: none;
+  border-radius: var(--link-border-rad);
+  background-color: var(--alert-color-dark);
+  width: 4rem;
+  height: 2rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  color: var(--main-text);
+}
+.delete-btn:hover {
+  border: none;
+  background-color: var(--alert-color);
+  width: 4rem;
+  height: 2rem;
+  margin: 0.5rem;
+}
+
+.edit-select-form * {
+  background-color: var(--main-dark);
+  border: none;
+  gap: 0.2rem;
+  padding: var(--link-padding);
+  border: var(--link-padding);
+  cursor: pointer;
+  color: var(--main-text);
+}
+
+.edit-select-form *:hover {
+  background-color: var(--main-light);
+}
+
+.edit-btn-contain {
+  display: flex;
+  align-items: center;
+}
+
+/* <------------------------- 9) General forms CSS ----------------------> */
+
+/* used for outer most form element can be form or form container  */
+.my-form {
+  position: fixed;
+  z-index: 20;
+  background-color: var(--main-dark);
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  border-radius: var(--link-border-rad);
+}
+
+.my-form fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  text-align: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.my-form fieldset div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.my-form input,
+textarea {
+  background-color: var(--main-med);
+  border: none;
+  padding: 0.2rem;
+  border-radius: var(--link-border-rad);
+  border-color: var(--main-light);
+}
+
+.my-form fieldset button {
+  cursor: pointer;
+  border-radius: var(--link-border-rad);
+  padding: var(--link-padding);
+  background-color: var(--accent-color);
+  color: var(--main-text);
+  border: none;
+  justify-self: center;
+  align-self: center;
+}
+
+.my-form fieldset button:hover {
+  background-color: var(--main-light);
+}
+
+/* <------------------------- 10) Media responsiveness ----------------------> */
 
 @media (max-width: 500px) {
   .color-contain {
@@ -544,30 +489,4 @@ a {
     justify-content: space-evenly;
     align-items: center;
   }
-
-  /*
-  header {
-    flex-direction: row;
-  }
-  #l-header-contain {
-    display: flex;
-    gap: 2rem;
-    font-size: 1.5rem;
-    justify-content: space-between;
-  }
-  #header-btn-contain {
-    margin-left: auto;
-  }
-  .search-contain {
-    padding: 0.75rem;
-    position: sticky;
-    top: 0rem;
-    z-index: 15;
-    margin: 0rem 0rem 0rem 0rem;
-  }
-
-  #main-header-title {
-    font-size: 1rem;
-  }
-*/
 }
