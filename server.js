@@ -61,7 +61,7 @@ app.post('/exercise', upload.single('imgfile'), async (req, res) => {
     // Convert and resize the image using sharp
     const resizedImageBuffer = await sharp(fileBuffer)
       .resize({ width: newWidth, height: newHeight })
-      .jpeg({ quality: 90 })
+      .jpeg({ quality: 100 })
       .toBuffer();
 
     const params = {
@@ -100,13 +100,13 @@ app.get('/exercise/:category', async (req, res) => {
 
     // Handle fetching all exercises
     if (category === 'all') {
-      sql = `SELECT * FROM exercises`;
+      sql = `SELECT * FROM exercises ORDER BY extitle`;
     } else if (
       bodyPartArray.includes(category) ||
       exerciseTypeArray.includes(category)
     ) {
       // Determine the SQL query based on the category type
-      sql = `SELECT * FROM exercises WHERE ${bodyPartArray.includes(category) ? 'bodypart' : 'extype'} = ?`;
+      sql = `SELECT * FROM exercises WHERE ${bodyPartArray.includes(category) ? 'bodypart' : 'extype'} = ? ORDER BY extitle`;
       queryParameters = [category];
     } else {
       // If category does not match any known category, return an error
@@ -247,7 +247,7 @@ app.patch('/exercise/image/:id', upload.single('imgfile'), async (req, res) => {
     // Convert and resize the image using sharp
     const resizedImageBuffer = await sharp(fileBuffer)
       .resize({ width: newWidth, height: newHeight })
-      .jpeg({ quality: 90 })
+      .jpeg({ quality: 100 })
       .toBuffer();
 
     // Delete existing image from S3 (if any)
