@@ -480,6 +480,17 @@ textarea {
   background-color: var(--main-light);
 }
 
+#extype_radio_fieldset,
+#bodypart_radio_fieldset {
+  display: flex;
+  flex-direction: row;
+}
+
+#extype_radio_fieldset legend,
+#bodypart_radio_fieldset legend {
+  margin-right: auto;
+}
+
 /* <------------------------- 10) Media responsiveness ----------------------> */
 
 @media (max-width: 500px) {

@@ -52,7 +52,7 @@ app.post('/exercise', upload.single('imgfile'), async (req, res) => {
     const fileBuffer = req.file.buffer;
 
     // Get the original width and height of the image
-    const { width, height } = await sharp(fileBuffer).metadata();
+    // const { width, height } = await sharp(fileBuffer).metadata();
 
     // Calculate the new dimensions by halving both width and height
     const newWidth = 352;
@@ -238,7 +238,7 @@ app.patch('/exercise/image/:id', upload.single('imgfile'), async (req, res) => {
     const fileBuffer = req.file.buffer;
 
     // Get the original width and height of the image
-    const { width, height } = await sharp(fileBuffer).metadata();
+    //const { width, height } = await sharp(fileBuffer).metadata();
 
     // Calculate the new dimensions by halving both width and height
     const newWidth = 352;

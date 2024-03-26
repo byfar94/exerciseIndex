@@ -17,8 +17,6 @@ export default function EditCardForm({
     switch (editSelectCategory) {
       //case extitle, bodypart,extype,videoid
       case 'extitle':
-      case 'bodypart':
-      case 'extype':
       case 'videoid':
         return (
           <form
@@ -43,7 +41,122 @@ export default function EditCardForm({
             </fieldset>
           </form>
         );
-      //case imgfile
+
+      case 'extype':
+        return (
+          <form
+            id='extype_edit_form'
+            className='my-form'
+            onSubmit={(e) => {
+              handlePatchText(e, currentCardObj.id, close);
+              changeFormsubmitecount();
+            }}
+          >
+            <fieldset id={`${editSelectCategory}_radio_fieldset`}>
+              <legend>Exercise Type:</legend>
+              <div>
+                <label htmlFor='extype_radio_1'>AAROM</label>
+                <input
+                  type='radio'
+                  id='edit_extype_radio_1'
+                  name='extype'
+                  value='AAROM'
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='extype_radio_2'>AROM</label>
+                <input
+                  type='radio'
+                  id='edit_extype_radio_2'
+                  name='extype'
+                  value='AROM'
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='extype_radio_3'>Resistance</label>
+                <input
+                  type='radio'
+                  id='edit_extype_radio_3'
+                  name='extype'
+                  value='Resistance'
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='extype_radio_4'>Stretch</label>
+                <input
+                  type='radio'
+                  id='edit_extype_radio_4'
+                  name='extype'
+                  value='Stretch'
+                  required
+                />
+              </div>
+              <button type='submit'>Edit</button>
+            </fieldset>
+          </form>
+        );
+
+      case 'bodypart':
+        return (
+          <form
+            id='bodypart_edit_form'
+            className='my-form'
+            onSubmit={(e) => {
+              handlePatchText(e, currentCardObj.id, close);
+              changeFormsubmitecount();
+            }}
+          >
+            <fieldset id={`${editSelectCategory}_radio_fieldset`}>
+              <legend>Body Part:</legend>
+              <div>
+                <label htmlFor='bodypart_radio_1'>Hand</label>
+                <input
+                  type='radio'
+                  id='edit_bodypart_radio_1'
+                  name='bodypart'
+                  value='Hand'
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='bodypart_radio_2'>Wrist</label>
+                <input
+                  type='radio'
+                  id='edit_bodypart_radio_2'
+                  name='bodypart'
+                  value='Wrist'
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='bodypart_radio_3'>Elbow</label>
+                <input
+                  type='radio'
+                  id='edit_bodypart_radio_3'
+                  name='bodypart'
+                  value='Elbow'
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='bodypart_radio_4'>Shoulder</label>
+                <input
+                  type='radio'
+                  id='edit_bodypart_radio_4'
+                  name='bodypart'
+                  value='Shoulder'
+                  required
+                />
+              </div>
+              <button type='submit'>Edit</button>
+            </fieldset>
+          </form>
+        );
+
+      //case img file
       case 'imgfile':
         return (
           <form

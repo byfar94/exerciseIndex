@@ -61,7 +61,7 @@ export default function AddExerciseForm({
         <fieldset id='exercise-fieldset'>
           <legend>Add Exercise Card</legend>
           <div>
-            <label htmlFor='extitle'>Exercise Title</label>
+            <label htmlFor='extitle'>Exercise Title:</label>
             <input
               type='text'
               id='extitle'
@@ -73,34 +73,126 @@ export default function AddExerciseForm({
               required
             />
           </div>
+          <fieldset id='extype_radio_fieldset'>
+            <legend>Exercise Type:</legend>
+            <div>
+              <label htmlFor='extype_radio_1'>AAROM</label>
+              <input
+                type='radio'
+                id='extype_radio_1'
+                name='extype'
+                value='AAROM'
+                checked={extype === 'AAROM'}
+                onChange={(e) => {
+                  setExtype(e.target.value);
+                }}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor='extype_radio_2'>AROM</label>
+              <input
+                type='radio'
+                id='extype_radio_2'
+                name='extype'
+                value='AROM'
+                checked={extype === 'AROM'}
+                onChange={(e) => {
+                  setExtype(e.target.value);
+                }}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor='extype_radio_3'>Resistance</label>
+              <input
+                type='radio'
+                id='extype_radio_3'
+                name='extype'
+                value='Resistance'
+                checked={extype === 'Resistance'}
+                onChange={(e) => {
+                  setExtype(e.target.value);
+                }}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor='extype_radio_4'>Stretch</label>
+              <input
+                type='radio'
+                id='extype_radio_4'
+                name='extype'
+                value='Stretch'
+                checked={extype === 'Stretch'}
+                onChange={(e) => {
+                  setExtype(e.target.value);
+                }}
+                required
+              />
+            </div>
+          </fieldset>
+          <fieldset id='bodypart_radio_fieldset'>
+            <legend>Body Part:</legend>
+            <div>
+              <label htmlFor='bodypart_radio_1'>Hand</label>
+              <input
+                type='radio'
+                id='bodypart_radio_1'
+                name='bodypart'
+                value='Hand'
+                checked={bodypart === 'Hand'}
+                onChange={(e) => {
+                  setBodypart(e.target.value);
+                }}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor='bodypart_radio_2'>Wrist</label>
+              <input
+                type='radio'
+                id='bodypart_radio_2'
+                name='bodypart'
+                value='Wrist'
+                checked={bodypart === 'Wrist'}
+                onChange={(e) => {
+                  setBodypart(e.target.value);
+                }}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor='bodypart_radio_3'>Elbow</label>
+              <input
+                type='radio'
+                id='bodypart_radio_3'
+                name='bodypart'
+                value='Elbow'
+                checked={bodypart === 'Elbow'}
+                onChange={(e) => {
+                  setBodypart(e.target.value);
+                }}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor='bodypart_radio_4'>Shoulder</label>
+              <input
+                type='radio'
+                id='bodypart_radio_4'
+                name='bodypart'
+                value='Shoulder'
+                checked={bodypart === 'Shoulder'}
+                onChange={(e) => {
+                  setBodypart(e.target.value);
+                }}
+                required
+              />
+            </div>
+          </fieldset>
           <div>
-            <label htmlFor='extype'>Exercise Type</label>
-            <input
-              type='text'
-              id='extype'
-              name='extype'
-              value={extype}
-              onChange={(e) => {
-                setExtype(e.target.value);
-              }}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor='bodypart'>Body Part</label>
-            <input
-              type='text'
-              id='bodypart'
-              name='bodypart'
-              value={bodypart}
-              onChange={(e) => {
-                setBodypart(e.target.value);
-              }}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor='summary'>Exercise Summary</label>
+            <label htmlFor='summary'>Exercise Summary:</label>
             <textarea
               id='summary'
               name='summary'
@@ -113,7 +205,7 @@ export default function AddExerciseForm({
             ></textarea>
           </div>
           <div>
-            <label htmlFor='imgfile'> Image File</label>
+            <label htmlFor='imgfile'> Image File:</label>
             <input
               type='file'
               id='imgfile'
@@ -124,7 +216,7 @@ export default function AddExerciseForm({
             />
           </div>
           <div>
-            <label htmlFor='videoid'>Video ID</label>
+            <label htmlFor='videoid'>Video ID:</label>
             <input
               type='text'
               id='videoid'
